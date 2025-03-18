@@ -64,9 +64,9 @@ app.get("/info", (req, res) => {
 app.get("/download", async (req, res) => {
   const { url, format_id, title } = req.query;
   if (!url || !format_id)
-    return res.status(400).json({ error: "Paramètres manquants" });
+    return res.status(400).json({ error: "Missing Params" });
 
-  const fileName = title.length > 0 ? title : `${Date.now()}_youtube`;
+  const fileName = title && title.length > 0 ? title : `${Date.now()}_youtube`;
   const outputPath = `./downloads/${fileName}.${
     format_id.includes("audio") ? "mp3" : "mp4"
   }`;
@@ -88,6 +88,10 @@ app.get("/download", async (req, res) => {
   });
 });
 
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+if (require.main === module) {
+  app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`)
+  );
+}
+
+module.exports = app;
