@@ -31,3 +31,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Start deployment
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}

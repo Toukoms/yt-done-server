@@ -1,3 +1,2 @@
-apt-get update && apt-get install -y ffmpeg
-pip install yt-dlp
+export PATH=$PATH:$HOME/bin/
 npm install
