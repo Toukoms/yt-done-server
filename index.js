@@ -49,11 +49,11 @@ app.get("/info", (req, res) => {
       for (const audio of audios) {
         if (audio.abr) {
           audioFormats.push({
-            format_id: f.format_id,
-            ext: f.ext,
-            bitrate: `${f.abr} kbps`,
-            size: f.filesize
-              ? `${(f.filesize / 1024 / 1024).toFixed(2)} MB`
+            format_id: audio.format_id,
+            ext: audio.ext,
+            bitrate: `${audio.abr} kbps`,
+            size: audio.filesize
+              ? `${(audio.filesize / 1024 / 1024).toFixed(2)} MB`
               : "unknown",
           });
         }
