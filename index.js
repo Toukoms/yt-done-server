@@ -42,19 +42,22 @@ app.get("/info", (req, res) => {
             }
         );
 
-      const audioFormats = data.formats
-        .filter((f) => f.vcodec === "none" && f.acodec !== "none") // audio only
-        .map(
-          (f) =>
-            f.abr && {
-              format_id: f.format_id,
-              ext: f.ext,
-              bitrate: `${f.abr} kbps`,
-              size: f.filesize
-                ? `${(f.filesize / 1024 / 1024).toFixed(2)} MB`
-                : "unknown",
-            }
-        );
+      const audios = data.formats.filter(
+        (f) => f.vcodec === "none" && f.acodec !== "none"
+      ); // audio only
+      const audioFormats = [];
+      for (const audio of audios) {
+        if (audio.abr) {
+          audioFormats.push({
+            format_id: f.format_id,
+            ext: f.ext,
+            bitrate: `${f.abr} kbps`,
+            size: f.filesize
+              ? `${(f.filesize / 1024 / 1024).toFixed(2)} MB`
+              : "unknown",
+          });
+        }
+      }
 
       res.json({
         title,
