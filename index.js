@@ -24,6 +24,8 @@ app.get("/info", (req, res) => {
       const data = JSON.parse(stdout);
       const title = data.title;
       const thumbnail = data.thumbnails.pop().url;
+      const author = data.uploader;
+      const duration = data.duration;
 
       const videoAudioFormats = data.formats
         .filter((f) => f.vcodec !== "none" && f.acodec !== "none") // video + audio
@@ -54,7 +56,14 @@ app.get("/info", (req, res) => {
             }
         );
 
-      res.json({ title, thumbnail, videoAudioFormats, audioFormats });
+      res.json({
+        title,
+        thumbnail,
+        author,
+        duration,
+        videoAudioFormats,
+        audioFormats,
+      });
     } catch (parseError) {
       res.status(500).json({ error: "Error getting video formats" });
     }
