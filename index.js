@@ -27,20 +27,23 @@ app.get("/info", (req, res) => {
       const author = data.uploader;
       const duration = data.duration;
 
-      const videoAudioFormats = data.formats
-        .filter((f) => f.vcodec !== "none" && f.acodec !== "none") // video + audio
-        .map(
-          (f) =>
-            f.resolution && {
-              format_id: f.format_id,
-              ext: f.ext,
-              resolution: f.resolution,
-              fps: f.fps || "N/A",
-              size: f.filesize
-                ? `${(f.filesize / 1024 / 1024).toFixed(2)} MB`
-                : "unknown",
-            }
-        );
+      const videoAudioFormats = [];
+      const videoAudios = data.formats.filter(
+        (f) => f.vcodec !== "none" && f.acodec !== "none"
+      ); // video + audio
+      for (const videoAudio of videoAudios) {
+        if (videoAudio.resolution) {
+          videoAudioFormats.push({
+            format_id: videoAudio.format_id,
+            ext: videoAudio.ext,
+            resolution: videoAudio.resolution,
+            fps: videoAudio.fps || "N/A",
+            size: videoAudio.filesize
+              ? `${(videoAudio.filesize / 1024 / 1024).toFixed(2)} MB`
+              : "unknown",
+          });
+        }
+      }
 
       const audios = data.formats.filter(
         (f) => f.vcodec === "none" && f.acodec !== "none"
