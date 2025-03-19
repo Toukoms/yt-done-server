@@ -16,21 +16,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.x"
-
-      - name: Install yt-dlp
-        run: pip install yt-dlp
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Install dependencies
-        run: npm install
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Execute build.sh
+        run: bash ./build.sh
 
       - name: Start deployment
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
